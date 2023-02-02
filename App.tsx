@@ -85,7 +85,7 @@ export default class App extends Component {
               styles.btnStyle
             }>Kullanıcı getir...</Text>
           </TouchableOpacity>
-        </View>
+        </View>  
         <View >
           <TouchableOpacity style={
             styles.touchStyle
