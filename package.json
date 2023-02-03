@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@react-native-firebase/app": "^16.7.0",
+    "@react-native-firebase/auth": "^17.0.0",
     "@react-native-firebase/firestore": "^17.0.0",
+    "@react-native-google-signin/google-signin": "^9.0.2",
     "react": "18.2.0",
     "react-native": "0.71.2"
   },

@@ -1,21 +1,148 @@
-import React, { Component, useEffect } from 'react'
+import React, { Component } from 'react'
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import firestore from '@react-native-firebase/firestore'
+import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import auth from '@react-native-firebase/auth'
 
-function User({ }) {
-  useEffect(() => {
-    const subscriber = firestore().collection('Users')
-      .doc('43klWAkIl36kCtudRBHm').onSnapshot(documentSnapshot => {
-        console.log('User data: ', documentSnapshot.data());
-      });
-    return () => subscriber();
-  });
+
+GoogleSignin.configure({
+  webClientId: '947580869379-l23boal7j0n516ot3a7m8sceapkettal.apps.googleusercontent.com',
+  
+
+});
+
+
+async function onGoogleButtonPress() {
+  // Check if your device supports Google Play
+  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  // Get the users ID token
+  const { idToken } = await GoogleSignin.signIn();
+
+  // Create a Google credential with the token
+  const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+
+  // Sign-in the user with the credential
+  return auth().signInWithCredential(googleCredential);
 }
 
+
 export default class App extends Component {
+
+ 
   render() {
     return (
       <View style={styles.container}>
+         <View >
+          <TouchableOpacity style={
+            styles.touchStyle
+          }
+            onPress={ () => {
+              onGoogleButtonPress().then(()=>{console.log('signed in with google');
+             
+            
+            })
+            }}>
+            <Text style={
+              styles.btnStyle
+            }>Gmail ile giriş yap</Text>
+          </TouchableOpacity>
+        </View>
+        <View >
+          <TouchableOpacity style={
+            styles.touchStyle
+          }
+            onPress={async () => {
+              await auth().signInWithEmailAndPassword('alaettin@topal.com', 'pas12345')
+                .then(() => {
+                  console.log('User account  sign in');
+                  console.log(auth().currentUser);
+                  console.log(auth().currentUser?.email);
+                  console.log(auth().currentUser?.emailVerified);
+                  
+                  
+                }).catch(error=>{
+                  if(error.code==='auth/email-already-in-use'){
+                    console.log('that email address is allready in use!');
+                    
+                  }
+                  if(error.code==='auth/invalid-email'){
+                    console.log('that email address is invalid');
+                  }
+                  console.error(error);
+                  
+                })
+            }}>
+            <Text style={
+              styles.btnStyle
+            }>Email-Şifre ile giriş yap</Text>
+          </TouchableOpacity>
+        </View>
+        <View >
+          <TouchableOpacity style={
+            styles.touchStyle
+          }
+            onPress={async () => {
+              await auth().createUserWithEmailAndPassword('alaettin@topal.com', 'pas12345')
+                .then(() => {
+                  console.log('User account created & sign in');
+                  console.log(auth().currentUser);
+                  
+                }).catch(error=>{
+                  if(error.code==='auth/email-already-in-use'){
+                    console.log('that email address is allready in use!');
+                    
+                  }
+                  if(error.code==='auth/invalid-email'){
+                    console.log('that email address is invalid');
+                  }
+                  console.error(error);
+                  
+                })
+            }}>
+            <Text style={
+              styles.btnStyle
+            }>Email-Şifre ile kayıt ol ve giriş yap</Text>
+          </TouchableOpacity>
+        </View>
+        <View >
+          <TouchableOpacity style={
+            styles.touchStyle
+          }
+            onPress={async () => {
+              auth().signOut().then(() => {
+                console.log('User signed out!.');
+
+              })
+            }}>
+            <Text style={
+              styles.btnStyle
+            }>Oturum Kapat</Text>
+          </TouchableOpacity>
+        </View>
+        <View >
+          <TouchableOpacity style={
+            styles.touchStyle
+          }
+            onPress={async () => {
+              await auth().signInAnonymously()
+                .then(() => {
+                  console.log('User Signed in anonymously');
+                  console.log(auth().currentUser);
+                })
+                .catch(error => {
+                  if (error.code === 'auth/operation-not-allowed') {
+                    console.log('Enable  anonymous in your firebase console');
+
+
+                  }
+                  console.error(error);
+                })
+            }}>
+            <Text style={
+              styles.btnStyle
+            }>Anonim Kullanıcı Girişi</Text>
+          </TouchableOpacity>
+        </View>
         <View >
           <TouchableOpacity style={
             styles.touchStyle
@@ -68,8 +195,8 @@ export default class App extends Component {
         <View >
           <TouchableOpacity style={
             styles.touchStyle
-          } onPress={ async () => {
-           await firestore()
+          } onPress={async () => {
+            await firestore()
               .collection('Users')
               .doc('43klWAkIl36kCtudRBHm')
               .get()
@@ -85,7 +212,7 @@ export default class App extends Component {
               styles.btnStyle
             }>Kullanıcı getir...</Text>
           </TouchableOpacity>
-        </View>  
+        </View>
         <View >
           <TouchableOpacity style={
             styles.touchStyle

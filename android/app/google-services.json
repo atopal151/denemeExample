@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:947580869379:android:f19c57bbc6017d75cea736",
         "android_client_info": {
-          "package_name": "com.denemeexample"
+          "package_name": "com.denemeExample"
         }
       },
       "oauth_client": [
@@ -17,12 +17,12 @@
           "client_id": "947580869379-l4mq7g8tb7fkuf6c9hilr55ffunir7ad.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.denemeexample",
+            "package_name": "com.denemeExample",
             "certificate_hash": "29c9e71443cf96d93bfec5b6cee4693ec638adf7"
           }
         },
         {
-          "client_id": "947580869379-hqhfela3j0jcknqe6tcpjuuesc1b1p15.apps.googleusercontent.com",
+          "client_id": "947580869379-l23boal7j0n516ot3a7m8sceapkettal.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
